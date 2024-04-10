@@ -1,10 +1,25 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Signin() {
   const [rememberMe, setRememberMe] = useState(false);
   const passwordInput = useRef();
   const usernameInput = useRef();
   const loginButton = useRef();
+  const isLoggedIn = useSelector((state) => state.log.isLoggedIn);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // VERIFY IF LOGGED //
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/user");
+    }
+  }, [isLoggedIn, navigate]);
+
+  // FETCH LOGIN //
 
   async function loginRequest() {
     /* prettier-ignore */
@@ -21,21 +36,23 @@ function Signin() {
     }).then((resp) => resp.json());
   }
 
+  // MANAGE FORM //
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const response = await loginRequest();
       if (response.error) {
-        console.log("Echec de connexion");
         animationEchec();
       } else {
         const token = response.body.token;
         console.log("Connexion Reussi");
+        sessionStorage.setItem("token", token);
         if (rememberMe) {
           localStorage.setItem("token", token);
-        } else {
-          sessionStorage.setItem("token", token);
         }
+        dispatch({ type: "LOGIN_SUCCESS" });
+        navigate("/user");
       }
     } catch (error) {
       animationEchec();

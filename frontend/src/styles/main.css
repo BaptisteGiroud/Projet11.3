@@ -160,6 +160,7 @@ body {
 }
 
 .sign-in-button {
+  border: none;
   display: block;
   width: 100%;
   padding: 8px;
