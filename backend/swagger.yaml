@@ -101,6 +101,134 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+#------ NEW ENDPOINTS -------#
+  /user/accounts/{userId}:
+  get:
+    security:
+      - Bearer: []
+    tags:
+      - Account Module
+    summary: Get User Accounts
+    description: API to retrieve all accounts of a specific user
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        description: ID of the user to retrieve accounts for
+        type: string
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Accounts retrieved successfully
+        schema:
+          $ref: '#/definitions/AccountList'
+      '500':
+        description: Internal Server Error
+  /user/transactions/{accountId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get Account Transactions
+      description: API to retrieve all transactions of a specific account
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account to retrieve transactions for
+          type: string
+        - in: query
+          name: page
+          description: Page number for paginated results
+          type: integer
+          default: 1
+        - in: query
+          name: limit
+          description: Number of transactions per page
+          type: integer
+          default: 10
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionList'
+        '404':
+          description: Account not found
+        '500':
+          description: Internal Server Error
+  /user/transactions/{accountId}/{transactionId}:
+  get:
+    security:
+      - Bearer: []
+    tags:
+      - Transaction Module
+    summary: Get Transaction Details
+    description: API to retrieve details of a specific transaction
+    parameters:
+      - in: path
+        name: accountId
+        required: true
+        description: ID of the account containing the transaction
+        type: string
+      - in: path
+        name: transactionId
+        required: true
+        description: ID of the transaction to retrieve details for
+        type: string
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Transaction details retrieved successfully
+        schema:
+          $ref: '#/definitions/TransactionDetails'
+      '404':
+        description: Transaction not found
+      '500':
+        description: Internal Server Error
+  /user/transactions/{accountId}/{transactionId}:
+  put:
+    security:
+      - Bearer: []
+    tags:
+      - Transaction Module
+    summary: Update Transaction
+    description: API to update details of a specific transaction
+    parameters:
+      - in: path
+        name: accountId
+        required: true
+        description: ID of the account containing the transaction
+        type: string
+      - in: path
+        name: transactionId
+        required: true
+        description: ID of the transaction to update
+        type: string
+      - in: body
+        name: body
+        description: Updated transaction details
+        required: true
+        schema:
+          $ref: '#/definitions/TransactionUpdate'
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Transaction updated successfully
+        schema:
+          $ref: '#/definitions/ApiResponse'
+      '400':
+        description: Invalid Fields
+      '404':
+        description: Transaction not found
+      '500':
+        description: Internal Server Error
+#------ NEW ENDPOINTS -------#
 securityDefinitions:
   Bearer:
     type: apiKey

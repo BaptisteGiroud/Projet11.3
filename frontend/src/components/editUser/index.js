@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../reducers/user.reducer";
 
-function User() {
+function UserEdit() {
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
@@ -44,8 +44,7 @@ function User() {
         }
       );
       if (response.ok) {
-        const updatedUserData = await response.json();
-        dispatch(updateUser({ userName: updatedUserData.userName }));
+        dispatch(updateUser({ userName: editedButtonName }));
       } else {
         console.error("Error lors de l'édition du user name");
       }
@@ -68,6 +67,7 @@ function User() {
           value={editedButtonName}
           onChange={handleButtonNameChange}
           onBlur={handleInputBlur}
+          className="input-button"
         />
       ) : (
         <button className="edit-button" onClick={handleEditButtonClick}>
@@ -78,4 +78,4 @@ function User() {
   );
 }
 
-export default User;
+export default UserEdit;

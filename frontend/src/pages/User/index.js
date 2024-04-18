@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../reducers/user.reducer";
 import UserEdit from "../../components/editUser";
+import Account from "../../components/Account";
+import data from "../../datas/accounts.json";
 
 function User() {
   const isLoggedIn = useSelector((state) => state.log.isLoggedIn);
-  const userData = useSelector((state) => state.user);
+  const { firstName, lastName } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [accounts, setAccounts] = useState([]);
 
   // FETCH GETUSER //
 
@@ -23,6 +26,20 @@ function User() {
       return token;
     };
     getToken();
+
+    // GET ACCOUNTS //
+    const getAccounts = () => {
+      const userId = `${firstName} ${lastName}`;
+      const userAccounts = data.usersAccounts.find(
+        (userAccount) => userAccount.id === userId
+      );
+      if (userAccounts) {
+        return userAccounts.accounts;
+      }
+      return [];
+    };
+    const accountsData = getAccounts();
+    setAccounts(accountsData);
 
     // USER DATA //
     try {
@@ -58,42 +75,20 @@ function User() {
           console.error("Problème de récupération de l'utilisateur:", error)
         );
     }
-  }, [isLoggedIn, navigate, dispatch]);
+  });
 
   return (
     <main className="main bg-dark">
       <UserEdit />
       <h2 className="sr-only">Accounts</h2>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-          <p className="account-amount">$2,082.79</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-          <p className="account-amount">$10,928.42</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-          <p className="account-amount">$184.30</p>
-          <p className="account-amount-description">Current Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
+      {accounts.map((account) => (
+        <Account
+          key={account.name}
+          name={account.name}
+          solde={account.solde}
+          balance={account.balance}
+        />
+      ))}
     </main>
   );
 }

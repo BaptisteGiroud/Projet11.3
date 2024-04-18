@@ -27,10 +27,10 @@ function Header() {
       <div>
         {isLoggedIn ? (
           <div>
-            <Link to="/user" className={"main-nav-item"}>
+            <Link to="/profile" className={"main-nav-item"}>
               <i className="fa fa-user-circle"></i> {userData.userName}
             </Link>
-            {location.pathname === "/user" && (
+            {location.pathname === "/profile" && (
               <Link
                 to="/signin"
                 onClick={handleLogout}

@@ -160,6 +160,7 @@ body {
 }
 
 .sign-in-button {
+  text-decoration: underline;
   border: none;
   display: block;
   width: 100%;
@@ -264,6 +265,15 @@ body {
   color: #fff;
   font-weight: bold;
   padding: 10px;
+}
+
+.input-button {
+  font-size: large;
+  text-align: center;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+  padding: 7px;
 }
 
 .header {

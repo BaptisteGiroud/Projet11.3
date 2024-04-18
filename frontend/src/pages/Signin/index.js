@@ -15,7 +15,7 @@ function Signin() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/user");
+      navigate("/profile");
     }
   }, [isLoggedIn, navigate]);
 
@@ -52,7 +52,7 @@ function Signin() {
           localStorage.setItem("token", token);
         }
         dispatch({ type: "LOGIN_SUCCESS" });
-        navigate("/user");
+        navigate("/profile");
       }
     } catch (error) {
       animationEchec();
