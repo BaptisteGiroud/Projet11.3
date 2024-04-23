@@ -163,7 +163,7 @@ paths:
                   $ref: '#/definitions/TransactionList'
               # nextTransactions:
               #   type: integer
-              #   description: Next 10 transactions, null if no more transactions
+              #   description: Load next 10 transactions, null if no more transactions
               # totalTransactions:
               #   type: integer
               #   description: Total number of transactions
@@ -171,7 +171,7 @@ paths:
           description: Account not found
         '500':
           description: Internal Server Error
-  /user/{accountId}/transactions/{transactionId}:
+  /user/transactions/{transactionId}:
   get:
     security:
       - Bearer: []
@@ -180,11 +180,11 @@ paths:
     summary: Get Transaction Details
     description: API to retrieve details of a specific transaction
     parameters:
-      - in: path
-        name: accountId
-        required: true
-        description: ID of the account containing the transaction
-        type: string
+      # - in: path
+      #   name: accountId
+      #   required: true
+      #   description: ID of the account containing the transaction
+      #   type: string
       - in: path
         name: transactionId
         required: true
@@ -201,7 +201,7 @@ paths:
         description: Transaction not found
       '500':
         description: Internal Server Error
-  /user/{accountId}/transactions/{transactionId}/note:
+  /user/transactions/{transactionId}/note:
     post:
       security:
         - Bearer: []
@@ -210,11 +210,11 @@ paths:
       summary: Add Note to Transaction
       description: API to add a note to a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -245,11 +245,11 @@ paths:
       summary: Update Note of Transaction
       description: API to update the note of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -280,11 +280,11 @@ paths:
       summary: Delete Note of Transaction
       description: API to delete the note of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -299,7 +299,7 @@ paths:
           description: Transaction not found
         '500':
           description: Internal Server Error
-  /user/{accountId}/transactions/{transactionId}/type:
+  /user/transactions/{transactionId}/type:
     post:
       security:
         - Bearer: []
@@ -308,11 +308,11 @@ paths:
       summary: Add TransactionType to Transaction
       description: API to add a transactionType to a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -342,11 +342,11 @@ paths:
       summary: Update TransactionType of Transaction
       description: API to update the transactionType of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -377,11 +377,11 @@ paths:
       summary: Delete transactionType of Transaction
       description: API to delete the transactionType of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -396,7 +396,7 @@ paths:
           description: Transaction not found
         '500':
           description: Internal Server Error
-  /user/{accountId}/transactions/{transactionId}/category:
+  /user/transactions/{transactionId}/category:
     post:
       security:
         - Bearer: []
@@ -405,11 +405,11 @@ paths:
       summary: Add Category to Transaction
       description: API to add a category to a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -439,11 +439,11 @@ paths:
       summary: Update Category of Transaction
       description: API to update the category of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -474,11 +474,11 @@ paths:
       summary: Delete category of Transaction
       description: API to delete the category of a specific transaction
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          description: ID of the account containing the transaction
-          type: string
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
         - in: path
           name: transactionId
           required: true
@@ -607,22 +607,16 @@ definitions:
     properties:
       note:
         type: string
-        description: The note to be added, updated or deleted
-    required:
-      - note
+        description: The note to be added or updated
   TypePayload:
     type: object
     properties:
       transactionType:
         type: string
-        description: The transaction type to be added, updated or deleted
-    required:
-      - transactionType
+        description: The transaction type to be added or updated
   CategoryPayload:
     type: object
     properties:
       category:
         type: string
-        description: The category to be added, updated or deleted
-    required:
-      - category
+        description: The category to be added or updated
