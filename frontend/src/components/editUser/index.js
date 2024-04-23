@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../reducers/user.reducer";
 
@@ -7,6 +7,7 @@ function UserEdit() {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editedButtonName, setEditedButtonName] = useState("Edit Name");
+  const inputRef = useRef(null);
 
   let token = "";
   const getToken = () => {
@@ -54,6 +55,12 @@ function UserEdit() {
     setEditedButtonName("Edit Name");
   };
 
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
   return (
     <div className="header">
       <h1>
@@ -63,10 +70,17 @@ function UserEdit() {
       </h1>
       {isEditing ? (
         <input
+          ref={inputRef}
           type="text"
           value={editedButtonName}
           onChange={handleButtonNameChange}
           onBlur={handleInputBlur}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleInputBlur();
+            }
+          }}
           className="input-button"
         />
       ) : (

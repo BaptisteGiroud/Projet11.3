@@ -125,7 +125,7 @@ paths:
           $ref: '#/definitions/AccountList'
       '500':
         description: Internal Server Error
-  /user/transactions/{accountId}:
+  /user/{accountId}/transactions:
     get:
       security:
         - Bearer: []
@@ -139,28 +139,39 @@ paths:
           required: true
           description: ID of the account to retrieve transactions for
           type: string
-        - in: query
-          name: page
-          description: Page number for paginated results
-          type: integer
-          default: 1
-        - in: query
-          name: limit
-          description: Number of transactions per page
-          type: integer
-          default: 10
+        # - in: query
+        #   name: page
+        #   description: Page number
+        #   type: integer
+        #   default: 1
+        # - in: query
+        #   name: limit
+        #   description: Number of transactions at loading
+        #   type: integer
+        #   default: 10
       produces:
         - application/json
       responses:
         '200':
           description: Transactions retrieved successfully
           schema:
-            $ref: '#/definitions/TransactionList'
+            # type: object
+            # properties:
+            #   transactions:
+            #     type: array
+            #     items:
+                  $ref: '#/definitions/TransactionList'
+              # nextTransactions:
+              #   type: integer
+              #   description: Next 10 transactions, null if no more transactions
+              # totalTransactions:
+              #   type: integer
+              #   description: Total number of transactions
         '404':
           description: Account not found
         '500':
           description: Internal Server Error
-  /user/transactions/{accountId}/{transactionId}:
+  /user/{accountId}/transactions/{transactionId}:
   get:
     security:
       - Bearer: []
@@ -190,44 +201,298 @@ paths:
         description: Transaction not found
       '500':
         description: Internal Server Error
-  /user/transactions/{accountId}/{transactionId}:
-  put:
-    security:
-      - Bearer: []
-    tags:
-      - Transaction Module
-    summary: Update Transaction
-    description: API to update details of a specific transaction
-    parameters:
-      - in: path
-        name: accountId
-        required: true
-        description: ID of the account containing the transaction
-        type: string
-      - in: path
-        name: transactionId
-        required: true
-        description: ID of the transaction to update
-        type: string
-      - in: body
-        name: body
-        description: Updated transaction details
-        required: true
-        schema:
-          $ref: '#/definitions/TransactionUpdate'
-    produces:
-      - application/json
-    responses:
-      '200':
-        description: Transaction updated successfully
-        schema:
-          $ref: '#/definitions/ApiResponse'
-      '400':
-        description: Invalid Fields
-      '404':
-        description: Transaction not found
-      '500':
-        description: Internal Server Error
+  /user/{accountId}/transactions/{transactionId}/note:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Add Note to Transaction
+      description: API to add a note to a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to add the note to
+          type: string
+        - in: body
+          name: body
+          description: Note payload
+          required: true
+          schema:
+            $ref: '#/definitions/NotePayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note added successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Update Note of Transaction
+      description: API to update the note of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to update the note for
+          type: string
+        - in: body
+          name: body
+          description: Updated note payload
+          required: true
+          schema:
+            $ref: '#/definitions/NotePayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note updated successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Delete Note of Transaction
+      description: API to delete the note of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to delete the note from
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Note deleted successfully
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+  /user/{accountId}/transactions/{transactionId}/type:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Add TransactionType to Transaction
+      description: API to add a transactionType to a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to add the transactionType
+        - in: body
+          name: body
+          description: TransactionType payload
+          required: true
+          schema:
+            $ref: '#/definitions/TypePayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: TransactionType added successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Update TransactionType of Transaction
+      description: API to update the transactionType of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to update the transactionType for
+          type: string
+        - in: body
+          name: body
+          description: Updated transactionType payload
+          required: true
+          schema:
+            $ref: '#/definitions/TypePayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: TransactionType updated successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Delete transactionType of Transaction
+      description: API to delete the transactionType of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to delete the transactionType from
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: TransactionType deleted successfully
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+  /user/{accountId}/transactions/{transactionId}/category:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Add Category to Transaction
+      description: API to add a category to a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to add the category
+        - in: body
+          name: body
+          description: Category payload
+          required: true
+          schema:
+            $ref: '#/definitions/CategoryPayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Category added successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Update Category of Transaction
+      description: API to update the category of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to update the category for
+          type: string
+        - in: body
+          name: body
+          description: Updated category payload
+          required: true
+          schema:
+            $ref: '#/definitions/CategoryPayload'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Category updated successfully
+        '400':
+          description: Invalid request payload
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Delete category of Transaction
+      description: API to delete the category of a specific transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of the account containing the transaction
+          type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to delete the category from
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Category deleted successfully
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
 #------ NEW ENDPOINTS -------#
 securityDefinitions:
   Bearer:
@@ -237,6 +502,9 @@ securityDefinitions:
 definitions:
   User:
     properties:
+      # id:
+      #   type: string
+      #   description: userId
       email:
         type: string
         description: user email
@@ -284,3 +552,77 @@ definitions:
     properties:
       userName:
         type: string
+#------- AJOUT DEFINITIONS -------#
+  AccountList:
+    type: array
+    items:
+      $ref: '#/definitions/Account'
+  Account:
+    type: object
+    properties:
+      id:
+        type: string
+        description: accountId
+  TransactionList:
+    type: array
+    items:
+      $ref: '#/definitions/Transaction'
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: transactionId
+      date:
+        type: string
+        description: date of transaction
+      description:
+        type: string
+        description: description of transaction
+      amount:
+        type: string
+        description: amount of transaction
+      balance:
+        type: string
+        description: balance of transaction
+      details:
+        type: object
+        description: details of transaction
+        items:
+          $ref: '#/definitions/TransactionDetails'
+  TransactionDetails:
+    type: object
+    properties:
+      note:
+        type: string
+        description: transaction note
+      transactiontype:
+        type: string
+        description: transaction type
+      category:
+        type: string
+        description: transaction category
+  NotePayload:
+    type: object
+    properties:
+      note:
+        type: string
+        description: The note to be added, updated or deleted
+    required:
+      - note
+  TypePayload:
+    type: object
+    properties:
+      transactionType:
+        type: string
+        description: The transaction type to be added, updated or deleted
+    required:
+      - transactionType
+  CategoryPayload:
+    type: object
+    properties:
+      category:
+        type: string
+        description: The category to be added, updated or deleted
+    required:
+      - category
