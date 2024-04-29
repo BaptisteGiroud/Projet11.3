@@ -46,7 +46,6 @@ function Signin() {
         animationEchec();
       } else {
         const token = response.body.token;
-        console.log("Connexion Reussi");
         sessionStorage.setItem("token", token);
         if (rememberMe) {
           localStorage.setItem("token", token);
@@ -76,21 +75,11 @@ function Signin() {
         <form onSubmit={handleLogin}>
           <div className="input-wrapper">
             <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              required="required"
-              ref={usernameInput}
-            />
+            <input type="text" id="username" required ref={usernameInput} />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              required="required"
-              ref={passwordInput}
-            />
+            <input type="password" id="password" required ref={passwordInput} />
           </div>
           <div className="input-remember">
             <input

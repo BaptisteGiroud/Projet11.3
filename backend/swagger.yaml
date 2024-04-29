@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
@@ -21,17 +21,17 @@ paths:
           description: Login Payload
           required: true
           schema:
-            $ref: '#/definitions/Login'
+            $ref: "#/definitions/Login"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Login Successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
+            $ref: "#/definitions/LoginResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/signup:
     post:
@@ -45,17 +45,17 @@ paths:
           description: Signup Payload
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Signup Successfully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/profile:
     post:
@@ -66,15 +66,15 @@ paths:
       summary: User Profile API
       description: API for fetching a user profile
       #produces:
-       # - application/json
+      # - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -89,42 +89,42 @@ paths:
           description: Update user profile attributes
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
-#------ NEW ENDPOINTS -------#
+  #------ NEW ENDPOINTS -------#
   /user/accounts/{userId}:
-  get:
-    security:
-      - Bearer: []
-    tags:
-      - Account Module
-    summary: Get User Accounts
-    description: API to retrieve all accounts of a specific user
-    parameters:
-      - in: path
-        name: userId
-        required: true
-        description: ID of the user to retrieve accounts for
-        type: string
-    produces:
-      - application/json
-    responses:
-      '200':
-        description: Accounts retrieved successfully
-        schema:
-          $ref: '#/definitions/AccountList'
-      '500':
-        description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Account Module
+      summary: Get User Accounts
+      description: API to retrieve all accounts of a specific user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          description: ID of the user to retrieve accounts for
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Accounts retrieved successfully
+          schema:
+            $ref: "#/definitions/AccountList"
+        "500":
+          description: Internal Server Error
   /user/{accountId}/transactions:
     get:
       security:
@@ -139,68 +139,53 @@ paths:
           required: true
           description: ID of the account to retrieve transactions for
           type: string
-        # - in: query
-        #   name: page
-        #   description: Page number
-        #   type: integer
-        #   default: 1
-        # - in: query
-        #   name: limit
-        #   description: Number of transactions at loading
-        #   type: integer
-        #   default: 10
+        - in: query
+          name: start_date
+          description: Start date of the month to filter transactions
+          type: string
+          format: YYYY-MM-DD
+          # Definir dans le backend la logic start_date #
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Transactions retrieved successfully
           schema:
-            # type: object
-            # properties:
-            #   transactions:
-            #     type: array
-            #     items:
-                  $ref: '#/definitions/TransactionList'
-              # nextTransactions:
-              #   type: integer
-              #   description: Load next 10 transactions, null if no more transactions
-              # totalTransactions:
-              #   type: integer
-              #   description: Total number of transactions
-        '404':
+            $ref: "#/definitions/TransactionList"
+        "404":
           description: Account not found
-        '500':
+        "500":
           description: Internal Server Error
   /user/transactions/{transactionId}:
-  get:
-    security:
-      - Bearer: []
-    tags:
-      - Transaction Module
-    summary: Get Transaction Details
-    description: API to retrieve details of a specific transaction
-    parameters:
-      # - in: path
-      #   name: accountId
-      #   required: true
-      #   description: ID of the account containing the transaction
-      #   type: string
-      - in: path
-        name: transactionId
-        required: true
-        description: ID of the transaction to retrieve details for
-        type: string
-    produces:
-      - application/json
-    responses:
-      '200':
-        description: Transaction details retrieved successfully
-        schema:
-          $ref: '#/definitions/TransactionDetails'
-      '404':
-        description: Transaction not found
-      '500':
-        description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get Transaction Details
+      description: API to retrieve details of a specific transaction
+      parameters:
+        # - in: path
+        #   name: accountId
+        #   required: true
+        #   description: ID of the account containing the transaction
+        #   type: string
+        - in: path
+          name: transactionId
+          required: true
+          description: ID of the transaction to retrieve details for
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction details retrieved successfully
+          schema:
+            $ref: "#/definitions/TransactionDetails"
+        "404":
+          description: Transaction not found
+        "500":
+          description: Internal Server Error
   /user/transactions/{transactionId}/note:
     post:
       security:
@@ -225,17 +210,17 @@ paths:
           description: Note payload
           required: true
           schema:
-            $ref: '#/definitions/NotePayload'
+            $ref: "#/definitions/NotePayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Note added successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -260,17 +245,17 @@ paths:
           description: Updated note payload
           required: true
           schema:
-            $ref: '#/definitions/NotePayload'
+            $ref: "#/definitions/NotePayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Note updated successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     delete:
       security:
@@ -293,11 +278,11 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Note deleted successfully
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
   /user/transactions/{transactionId}/type:
     post:
@@ -317,22 +302,23 @@ paths:
           name: transactionId
           required: true
           description: ID of the transaction to add the transactionType
+          type: string
         - in: body
           name: body
           description: TransactionType payload
           required: true
           schema:
-            $ref: '#/definitions/TypePayload'
+            $ref: "#/definitions/TypePayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: TransactionType added successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -357,17 +343,17 @@ paths:
           description: Updated transactionType payload
           required: true
           schema:
-            $ref: '#/definitions/TypePayload'
+            $ref: "#/definitions/TypePayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: TransactionType updated successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     delete:
       security:
@@ -390,11 +376,11 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: TransactionType deleted successfully
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
   /user/transactions/{transactionId}/category:
     post:
@@ -414,22 +400,23 @@ paths:
           name: transactionId
           required: true
           description: ID of the transaction to add the category
+          type: string
         - in: body
           name: body
           description: Category payload
           required: true
           schema:
-            $ref: '#/definitions/CategoryPayload'
+            $ref: "#/definitions/CategoryPayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Category added successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -454,17 +441,17 @@ paths:
           description: Updated category payload
           required: true
           schema:
-            $ref: '#/definitions/CategoryPayload'
+            $ref: "#/definitions/CategoryPayload"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Category updated successfully
-        '400':
+        "400":
           description: Invalid request payload
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
     delete:
       security:
@@ -487,11 +474,11 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Category deleted successfully
-        '404':
+        "404":
           description: Transaction not found
-        '500':
+        "500":
           description: Internal Server Error
 #------ NEW ENDPOINTS -------#
 securityDefinitions:
@@ -552,11 +539,11 @@ definitions:
     properties:
       userName:
         type: string
-#------- AJOUT DEFINITIONS -------#
+  #------- AJOUT DEFINITIONS -------#
   AccountList:
     type: array
     items:
-      $ref: '#/definitions/Account'
+      $ref: "#/definitions/Account"
   Account:
     type: object
     properties:
@@ -566,7 +553,7 @@ definitions:
   TransactionList:
     type: array
     items:
-      $ref: '#/definitions/Transaction'
+      $ref: "#/definitions/Transaction"
   Transaction:
     type: object
     properties:
@@ -589,7 +576,7 @@ definitions:
         type: object
         description: details of transaction
         items:
-          $ref: '#/definitions/TransactionDetails'
+          $ref: "#/definitions/TransactionDetails"
   TransactionDetails:
     type: object
     properties:
